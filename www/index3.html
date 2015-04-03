@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>maps database</title>
+        <script src="js/cordova.js"></script>
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script>
+            
+            // Wait for PhoneGap to load
+            function onDeviceReady() {
+                if (parseFloat(window.device.version) === 7.0) {
+                    document.body.style.marginTop = "20px";
+                }
+            }
+
+            document.addEventListener("deviceready", onDeviceReady, false);
+
+            // PhoneGap is loaded and it is now safe to make calls PhoneGap methods
+
+            var isNetworkAvailable=true;
+
+            function onDeviceReady() {
+            checkConnection();
+            document.addEventListener("offline", setOffline, false);
+            document.addEventListener("online", setOnline, false);
+            }
+
+            function checkConnection() {
+            var networkState = navigator.network.connection.type;
+
+            var states = {};
+            states[Connection.UNKNOWN]  = 'Unknown connection';
+            states[Connection.ETHERNET] = 'Ethernet connection';
+            states[Connection.WIFI]     = 'WiFi connection';
+            states[Connection.CELL_2G]  = 'Cell 2G connection';
+            states[Connection.CELL_3G]  = 'Cell 3G connection';
+            states[Connection.CELL_4G]  = 'Cell 4G connection';
+            states[Connection.NONE]     = 'No network connection';
+
+            alert('Connection type: ' + states[networkState]);
+            }
+
+ function networkAvailable() {
+      return isNetworkAvailable;
+
+     //var userID = $(this).attr('id');
+    var getlat = window.localStorage.getItem("latitude", lat);
+    var getlng = window.localStorage.getItem("longitude", lng);
+     //alert($(this).attr('id'));
+            $.ajax({
+                type: "POST",
+                url: 'myurl/location.php',
+                data: { getlat : getlat, getlng : getlng},
+                success: function(data)
+                {
+                    alert("Data sent!");
+                },
+        complete:function remove(){
+        localStorage.removeItem("latitude");
+        localStorage.removeItem("longitude");
+        },
+        error: function(){
+        alert('Code 303A');
+        }
+                });
+            }
+
+    function setOffline() {
+             isNetworkAvailable=false;
+    }
+
+    function setOnline() {
+            isNetworkAvailable=true;
+    }   
+            
+             //find location info//
+        function geolocation(){
+            var options = enableHighAccuracy = true;
+            watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+
+        //this functions runs if geolocation is returned//
+        function onSuccess(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            //save to local storage
+            localStorage.setItem("latitude", lat);
+            localStorage.setItem("longitude", lng);
+            //tell user their lng and lat
+            //alert("lat: " + lat + "long: " + lng);
+        }
+        //if cant get location give error//
+        function onError(error) {
+            alert("message: " + error.message);
+            localStorage.setItem("message", error.message);
+         }
+        }
+    geolocation();
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

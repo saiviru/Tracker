@@ -1,0 +1,44 @@
+html,body,div,ol,li,ul,a,h1,h2{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: burlywood;
+}
+ul li a{
+    text-decoration: none;
+    padding: 20px;
+    background-color: antiquewhite;
+    float: left;
+    border-radius: 10px;
+    display: inline;
+    border: 1px solid black;
+    text-transform: uppercase;
+    position: relative;
+    left:80px;
+    
+
+}
+ul li a:hover{
+    background-color: bisque;
+}
+#top{
+    width: 100%;
+    height: 25%;
+    background-color:firebrick;
+}
+h1{
+    color:cornsilk;
+}
+#next{
+    //display: inline;
+    float:left;
+}
+ul{
+    list-style: none;
+}
+//.non{
+    position:relative;
+    top: 183px;
+    left:-10px;
+}
